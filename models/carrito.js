@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var CarritoSchema = Schema({
-    client_id: {type: Schema.Types.ObjectId, ref: 'Cliente', required: true},
+    client: {type: Schema.Types.ObjectId, ref: 'Cliente', required: true},
     address: {type: Schema.Types.ObjectId, ref: 'Direccion'},
     phone: {type: String, default: ''},
     tip: {type: Number, default: 0},    // Propina

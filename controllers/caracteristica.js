@@ -8,6 +8,7 @@ var controller = {
         var parameters = request.body
         var caracteristica = new Caracteristica();
 
+        caracteristica.feature_value_id = parameters.feature_value_id;
         caracteristica.name = parameters.name;
         caracteristica.price_impact = parameters.price_impact;
 

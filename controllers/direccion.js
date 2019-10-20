@@ -8,6 +8,8 @@ var controller = {
         var parameters = request.body
         var direccion = new Direccion();
 
+        direccion.client_id = parameters.client_id;
+        direccion.direction_id = parameters.direction_id;
         direccion.latitude = parameters.latitude;
         direccion.longitude = parameters.longitude;
 

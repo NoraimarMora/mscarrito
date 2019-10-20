@@ -8,6 +8,7 @@ var controller = {
         var parameters = request.body
         var cliente = new Cliente();
 
+        cliente.client_id = parameters.client_id;
         cliente.first_name = parameters.first_name;
         cliente.last_name = parameters.last_name;
         cliente.addresses = parameters.addresses;

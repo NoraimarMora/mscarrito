@@ -9,30 +9,36 @@ var controller = {
     saveCarrito: function(request, response) {
         var parameters = request.body
         var carrito = new Carrito();
-        var total = 0;
 
         try {
             carrito._id = new mongoose.Types.ObjectId()
-            carrito.client_id = parameters.client_id;
+            carrito.client = parameters.client;
             carrito.address = parameters.address;
             carrito.phone = parameters.phone;
             carrito.tip = parameters.tip;
             carrito.products = [];
+            carrito.total = 0;
 
             parameters.products.map((product) => {
-                var element = await ElementoCarrito.create({
-                    cartId: carrito._id,
-                    product: product._id,
-                    quantity: product.quantity,
-                    unit_price: product.price,
-                    features: []
+                var element = new ElementoCarrito();
+                element.cart_id = carrito._id,
+                element.product = product.id,
+                element.quantity = product.quantity,
+                element.unit_price = product.unit_price,
+                element.features = []
+
+                element.save((error, elementStored) => {
+                    if (error) {
+                        return response.status(500).send({error});
+                    } 
+                    if (!elementStored) {
+                        return response.status(404).send({message: 'Not found'});
+                    } 
                 });
 
-                total = total + (product.price * product.quantity);
+                carrito.total = carrito.total + (element.unit_price * element.quantity);
                 carrito.products.push(element._id);
             });
-
-            carrito.total = total;
 
             carrito.save((error, carritoStored) => {
                 if (error) {
@@ -54,11 +60,12 @@ var controller = {
         if (carritoId == null) {
             return response.status(404).send({
                 status: false, 
+                message: 'Not found'
             });
         }
 
         Carrito.findById(carritoId)
-            .populate('clienteId').populate('address')
+            .populate('client').populate('address')
             .populate('products').exec(function (error, carrito) {
             if (error) {
                 return response.status(500).send({
@@ -80,7 +87,8 @@ var controller = {
     },
 
     getCarritos: function (request, response) {
-        Carrito.find({}).exec((error, carritos) => {
+        Carrito.find({}).populate('client').populate('address')
+        .populate('products').exec((error, carritos) => {
             if (error) {
                 return response.status(500).send({
                     status: false, 
@@ -94,8 +102,8 @@ var controller = {
             }
 
             return response.status(200).send({
-                status:true, 
-                carritos: carritos
+                status: 200, 
+                carts: carritos
             });
         });
     },
@@ -120,7 +128,7 @@ var controller = {
             }
             if (!elementos) {
                 parameters.products.map((product) => {
-                    var element = await ElementoCarrito.create({
+                    var element = ElementoCarrito.create({
                         product: product.id,
                         quantity: product.quantity,
                         unit_price: product.unit_price,
@@ -135,7 +143,7 @@ var controller = {
             }
 
             parameters.products.map((product) => {
-                var result = elementos.find(elemento => elemento.product == product._id);
+                var result = elementos.find(elemento => elemento.product == product.id);
 
                 if (result != undefined) {
                     result.quantity = product.quantity;
@@ -153,10 +161,10 @@ var controller = {
                     total = total + (product.unit_price * product.quantity);
                     update.products.push(result._id);
                 } else {
-                    var element = await ElementoCarrito.create({
+                    var element = ElementoCarrito.create({
                         product: product.id,
                         quantity: product.quantity,
-                        unit_price: product.price,
+                        unit_price: product.unit_price,
                         features: []
                     });
     
@@ -193,7 +201,7 @@ var controller = {
     deleteCarrito: function (request, response) {
         var carritoId = request.params.id;
 
-        ElementoCarrito.deleteMany({cartId: carritoId}, (error, elements) => {
+        ElementoCarrito.deleteMany({cart_id: carritoId}, (error, elements) => {
             if (error) {
                 return response.status(500).send({
                     status: false, 
