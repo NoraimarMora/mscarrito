@@ -33,19 +33,25 @@ app.use('/direcciones', direccionRoutes);
 app.use('/productos', productoRoutes);
 app.use('/elementos', elementoCarritoRoutes);
 
+const jsonlog = (obj) => {
+  if (typeof obj === 'object') {
+    console.log(JSON.stringify(obj, '', 2));
+  }
+}
+
 const subscriptions = [
-  { queue: 'product-created', callback: () => { } },
-  { queue: 'product-updated', callback: () => { } },
-  { queue: 'product-deleted', callback: () => { } },
-  { queue: 'product-characteristic-created', callback: () => { } },
-  { queue: 'product-characteristic-updated', callback: () => { } },
-  { queue: 'product-characteristic-deleted', callback: () => { } },
-  { queue: 'client-created', callback: () => { } },
-  { queue: 'client-updated', callback: () => { } },
-  { queue: 'client-deleted', callback: () => { } },
-  { queue: 'address-created', callback: () => { } },
-  { queue: 'address-updated', callback: () => { } },
-  { queue: 'address-deleted', callback: () => { } },
+  { queue: 'product-created', callback: jsonlog },
+  { queue: 'product-updated', callback: jsonlog },
+  { queue: 'product-deleted', callback: jsonlog },
+  { queue: 'product-characteristic-created', callback: jsonlog },
+  { queue: 'product-characteristic-updated', callback: jsonlog },
+  { queue: 'product-characteristic-deleted', callback: jsonlog },
+  { queue: 'client-created', callback: jsonlog },
+  { queue: 'client-updated', callback: jsonlog },
+  { queue: 'client-deleted', callback: jsonlog },
+  { queue: 'address-created', callback: jsonlog },
+  { queue: 'address-updated', callback: jsonlog },
+  { queue: 'address-deleted', callback: jsonlog },
 ];
 
 const start = async () => {
