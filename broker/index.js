@@ -1,6 +1,6 @@
 const amqplib = require('amqplib');
 
-const { BROKER_URL } = require('../config');
+const { MB_HOST, MB_PORT } = require('../config');
 
 let brokerConnection = null;
 
@@ -16,7 +16,7 @@ const initBroker = () => new Promise(async (resolve, reject) => {
 
 const notifyCartProcessed = async (queue, cart) => {
   if (!brokerConnection) {
-    brokerConnection = await initBroker(BROKER_URL);
+    brokerConnection = await initBroker("amqp://" + MB_HOST + ":" + MB_PORT);
   }
 
   await brokerConnection.createChannel()
