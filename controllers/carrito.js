@@ -49,7 +49,7 @@ var controller = {
                     return response.status(404).send({message: 'No se ha podido guardar el documento'});
                 }
 
-                notifyCartProcessed('task1', carritoStored);
+                notifyCartProcessed(carritoStored);
                 return response.status(200).send({carrito: carritoStored});
             });
         } catch (error) {

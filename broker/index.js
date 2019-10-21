@@ -1,7 +1,8 @@
 const amqplib = require('amqplib');
 
-const { MB_HOST, MB_PORT } = require('../config');
+const { MB_URL } = require('../config');
 
+const queue = 'process-cart';
 let brokerConnection = null;
 
 const initBroker = () => new Promise(async (resolve, reject) => {
@@ -14,9 +15,9 @@ const initBroker = () => new Promise(async (resolve, reject) => {
   }
 });
 
-const notifyCartProcessed = async (queue, cart) => {
+const notifyCartProcessed = async (cart) => {
   if (!brokerConnection) {
-    brokerConnection = await initBroker("amqp://" + MB_HOST + ":" + MB_PORT);
+    brokerConnection = await initBroker(MB_URL);
   }
 
   await brokerConnection.createChannel()
