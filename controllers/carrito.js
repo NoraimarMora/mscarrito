@@ -3,6 +3,7 @@
 var Carrito = require('../models/carrito');
 var ElementoCarrito = require('../models/elementoCarrito');
 var mongoose = require('mongoose');
+const { notifyCartProcessed } = require('../broker');
 
 var controller = {
 
@@ -47,6 +48,8 @@ var controller = {
                 if (!carritoStored) {
                     return response.status(404).send({message: 'No se ha podido guardar el documento'});
                 }
+
+                notifyCartProcessed('task1', carritoStored);
                 return response.status(200).send({carrito: carritoStored});
             });
         } catch (error) {
