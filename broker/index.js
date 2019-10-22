@@ -19,7 +19,7 @@ const notifyCartProcessed = async (cart) => {
   if (!brokerConnection) {
     try {
       brokerConnection = await initBroker(MB_URL); 
-    } catch (error) {}
+    } catch (error) {
       console.error('Failed to connect to broker');
       return;
     }
