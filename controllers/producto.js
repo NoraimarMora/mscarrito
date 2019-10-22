@@ -16,14 +16,30 @@ var controller = {
 
         producto.save((error, productoStored) => {
             if (error) {
-                return response.status(500).send({error});
+                return response.status(500).send({
+                    status: 500,
+                    error
+                });
             } 
             if (!productoStored) {
-                return response.status(404).send({message: 'No se ha podido guardar el documento'});
+                return response.status(404).send({
+                    status: 404,
+                    message: 'No se ha podido guardar el documento'
+                });
             }
 
-            
-            return response.status(200).send({producto: productoStored});
+            var product = {
+                id: productoStored._id,
+                name: productoStored.name,
+                image_url: productoStored.image_url,
+                price: productoStored.price,
+                features: productoStored.features
+            }
+
+            return response.status(200).send({
+                status: 200,
+                product: product
+            });
         });
     },
 
@@ -32,26 +48,36 @@ var controller = {
 
         if (productoId == null) {
             return response.status(404).send({
-                status: false, 
+                status: 404, 
+                message: 'Not found'
             });
         }
 
         Producto.findById(productoId).exec(function (error, producto) {
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
             if (!producto) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404,
+                    message: 'Not found' 
                 });
             }
 
+            var product = {
+                id: producto._id,
+                name: producto.name,
+                image_url: producto.image_url,
+                price: producto.price,
+                features: producto.features
+            }
+
             return response.status(200).send({
-                status: true,
-                producto: producto
+                status: 200,
+                product: product
             });
         });
     },
@@ -60,19 +86,32 @@ var controller = {
         Producto.find({}).exec((error, productos) => {
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
             if (!productos) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404, 
+                    message: 'Not found'
                 });
             }
 
+            var products = []
+
+            productos.map((producto) => {
+                products.push({
+                    id: producto._id,
+                    name: producto.name,
+                    image_url: producto.image_url,
+                    price: producto.price,
+                    features: producto.features
+                })
+            })
+
             return response.status(200).send({
-                status:true, 
-                productos: productos
+                status: 200, 
+                products: products
             });
         });
     },
@@ -91,20 +130,28 @@ var controller = {
 
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
 
             if (!productoUpdated) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404, 
                 });
             }
 
+            var product = {
+                id: productoUpdated._id,
+                name: productoUpdated.name,
+                image_url: productoUpdated.image_url,
+                price: productoUpdated.price,
+                features: productoUpdated.features
+            }
+
             return response.status(200).send({
-                status: true, 
-                producto: productoUpdated
+                status: 200, 
+                product: product
             });
         });
     },
@@ -115,19 +162,28 @@ var controller = {
         Producto.findByIdAndRemove(productoId, (error, productoRemoved) => {
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
             if (!productoRemoved) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404, 
+                    message: 'Not found'
                 });
             }
 
+            var product = {
+                id: productoRemoved._id,
+                name: productoRemoved.name,
+                image_url: productoRemoved.image_url,
+                price: productoRemoved.price,
+                features: productoRemoved.features
+            }
+
             return response.status(200).send({
-                status: true, 
-                producto: productoRemoved
+                status: 200, 
+                product: product
             });
         });
     } 

@@ -14,14 +14,29 @@ var controller = {
 
         caracteristica.save((error, caracteristicaStored) => {
             if (error) {
-                return response.status(500).send({error});
+                return response.status(500).send({
+                    status: 500,
+                    error
+                });
             } 
             if (!caracteristicaStored) {
-                return response.status(404).send({message: 'No se ha podido guardar el documento'});
+                return response.status(404).send({
+                    status: 404,
+                    message: 'No se ha podido guardar el documento'
+                });
             }
 
+            var feature = {
+                id: caracteristicaStored._id,
+                feature_value_id: caracteristicaStored.feature_value_id,
+                name: caracteristicaStored.name,
+                price_impact: caracteristicaStored.price_impact
+            }
             
-            return response.status(200).send({caracteristica: caracteristicaStored});
+            return response.status(200).send({
+                status: 200,
+                feature: feature
+            });
         });
     },
 
@@ -30,26 +45,35 @@ var controller = {
 
         if (caracteristicaId == null) {
             return response.status(404).send({
-                status: false, 
+                status: 404, 
+                message: 'Not found'
             });
         }
 
         Caracteristica.findById(caracteristicaId).exec(function (error, caracteristica) {
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
             if (!caracteristica) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404, 
+                    message: 'Not found'
                 });
             }
 
+            var feature = {
+                id: caracteristica._id,
+                feature_value_id: caracteristica.feature_value_id,
+                name: caracteristica.name,
+                price_impact: caracteristica.price_impact
+            }
+
             return response.status(200).send({
-                status: true,
-                caracteristica: caracteristica
+                status: 200,
+                feature: feature
             });
         });
     },
@@ -68,9 +92,20 @@ var controller = {
                 });
             }
 
+            var features = []
+
+            caracteristicas.map((caracteristica) => {
+                features.push({
+                    id: caracteristica._id,
+                    feature_value_id: caracteristica.feature_value_id,
+                    name: caracteristica.name,
+                    price_impact: caracteristica.price_impact
+                })
+            })
+
             return response.status(200).send({
                 status:true, 
-                caracteristicas: caracteristicas
+                features: features
             });
         });
     },
@@ -87,20 +122,28 @@ var controller = {
 
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
 
             if (!caracteristicaUpdated) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404, 
+                    message: 'Not found'
                 });
             }
 
+            var feature = {
+                id: caracteristicaUpdated._id,
+                feature_value_id: caracteristicaUpdated.feature_value_id,
+                name: caracteristicaUpdated.name,
+                price_impact: caracteristicaUpdated.price_impact
+            }
+
             return response.status(200).send({
-                status: true, 
-                caracteristica: caracteristicaUpdated
+                status: 200, 
+                feature: feature
             });
         });
     },
@@ -111,19 +154,27 @@ var controller = {
         Caracteristica.findByIdAndRemove(caracteristicaId, (error, caracteristicaRemoved) => {
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
             if (!caracteristicaRemoved) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404, 
+                    message: 'Not found'
                 });
             }
 
+            var feature = {
+                id: caracteristicaRemoved._id,
+                feature_value_id: caracteristicaRemoved.feature_value_id,
+                name: caracteristicaRemoved.name,
+                price_impact: caracteristicaRemoved.price_impact
+            }
+
             return response.status(200).send({
-                status: true, 
-                caracteristica: caracteristicaRemoved
+                status: 200, 
+                feature: feature
             });
         });
     } 

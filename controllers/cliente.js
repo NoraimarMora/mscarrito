@@ -15,14 +15,30 @@ var controller = {
 
         cliente.save((error, clienteStored) => {
             if (error) {
-                return response.status(500).send({error});
+                return response.status(500).send({
+                    status: 500,
+                    error
+                });
             } 
             if (!clienteStored) {
-                return response.status(404).send({message: 'No se ha podido guardar el documento'});
+                return response.status(404).send({
+                    status: 404,
+                    message: 'No se ha podido guardar el documento'
+                });
             }
 
-            
-            return response.status(200).send({cliente: clienteStored});
+            var client = {
+                id: clienteStored._id,
+                client_id: clienteStored.client_id,
+                addresses: clienteStored.addresses,
+                first_name: clienteStored.first_name,
+                last_name: clienteStored.last_name
+            }
+
+            return response.status(200).send({
+                status: 200,
+                client: client
+            });
         });
     },
 
@@ -31,26 +47,36 @@ var controller = {
 
         if (clienteId == null) {
             return response.status(404).send({
-                status: false, 
+                status: 404, 
+                message: 'Not found'
             });
         }
 
         Cliente.findById(clienteId).exec(function (error, cliente) {
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
             if (!cliente) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404, 
+                    message: 'Not found'
                 });
             }
 
+            var client = {
+                id: cliente._id,
+                client_id: cliente.client_id,
+                addresses: cliente.addresses,
+                first_name: cliente.first_name,
+                last_name: cliente.last_name
+            }
+
             return response.status(200).send({
-                status: true,
-                cliente: cliente
+                status: 200,
+                client: client
             });
         });
     },
@@ -59,19 +85,32 @@ var controller = {
         Cliente.find({}).exec((error, clientes) => {
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
             if (!clientes) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404, 
+                    message: 'Not found'
                 });
             }
 
+            var clients = []
+
+            clientes.map((cliente) => {
+                clients.push({
+                    id: cliente._id,
+                    client_id: cliente.client_id,
+                    addresses: cliente.addresses,
+                    first_name: cliente.first_name,
+                    last_name: cliente.last_name
+                })
+            })
+
             return response.status(200).send({
-                status:true, 
-                clientes: clientes
+                status: 200, 
+                clients: clients
             });
         });
     },
@@ -89,20 +128,29 @@ var controller = {
 
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
 
             if (!clienteUpdated) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404, 
+                    message: 'Not found'
                 });
             }
 
+            var client = {
+                id: clienteUpdated._id,
+                client_id: clienteUpdated.client_id,
+                addresses: clienteUpdated.addresses,
+                first_name: clienteUpdated.first_name,
+                last_name: clienteUpdated.last_name
+            }
+
             return response.status(200).send({
-                status: true, 
-                cliente: clienteUpdated
+                status: 200, 
+                client: client
             });
         });
     },
@@ -113,19 +161,28 @@ var controller = {
         Cliente.findByIdAndRemove(clienteId, (error, clienteRemoved) => {
             if (error) {
                 return response.status(500).send({
-                    status: false, 
+                    status: 500, 
                     error
                 });
             }
             if (!clienteRemoved) {
                 return response.status(404).send({
-                    status: false, 
+                    status: 404,
+                    message: 'Not found' 
                 });
             }
 
+            var client = {
+                id: clienteRemoved._id,
+                client_id: clienteRemoved.client_id,
+                addresses: clienteRemoved.addresses,
+                first_name: clienteRemoved.first_name,
+                last_name: clienteRemoved.last_name
+            }
+
             return response.status(200).send({
-                status: true, 
-                cliente: clienteRemoved
+                status: 200, 
+                client: client
             });
         });
     } 
