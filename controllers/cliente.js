@@ -8,7 +8,7 @@ var controller = {
         var parameters = request.body
         var cliente = new Cliente();
 
-        cliente.client_id = parameters.client_id;
+        cliente._id = parameters.client_id;
         cliente.first_name = parameters.first_name;
         cliente.last_name = parameters.last_name;
         cliente.addresses = parameters.addresses;
@@ -29,7 +29,6 @@ var controller = {
 
             var client = {
                 id: clienteStored._id,
-                client_id: clienteStored.client_id,
                 addresses: clienteStored.addresses,
                 first_name: clienteStored.first_name,
                 last_name: clienteStored.last_name
@@ -68,7 +67,6 @@ var controller = {
 
             var client = {
                 id: cliente._id,
-                client_id: cliente.client_id,
                 addresses: cliente.addresses,
                 first_name: cliente.first_name,
                 last_name: cliente.last_name
@@ -101,7 +99,6 @@ var controller = {
             clientes.map((cliente) => {
                 clients.push({
                     id: cliente._id,
-                    client_id: cliente.client_id,
                     addresses: cliente.addresses,
                     first_name: cliente.first_name,
                     last_name: cliente.last_name
@@ -142,7 +139,6 @@ var controller = {
 
             var client = {
                 id: clienteUpdated._id,
-                client_id: clienteUpdated.client_id,
                 addresses: clienteUpdated.addresses,
                 first_name: clienteUpdated.first_name,
                 last_name: clienteUpdated.last_name
@@ -174,7 +170,6 @@ var controller = {
 
             var client = {
                 id: clienteRemoved._id,
-                client_id: clienteRemoved.client_id,
                 addresses: clienteRemoved.addresses,
                 first_name: clienteRemoved.first_name,
                 last_name: clienteRemoved.last_name

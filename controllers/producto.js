@@ -8,7 +8,7 @@ var controller = {
         var parameters = request.body
         var producto = new Producto();
 
-        producto.product_id = parameters.product_id;
+        producto._id = parameters.product_id;
         producto.name = parameters.name;
         producto.image_url = parameters.image_url;
         producto.price = parameters.price;

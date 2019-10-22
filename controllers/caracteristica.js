@@ -8,7 +8,7 @@ var controller = {
         var parameters = request.body
         var caracteristica = new Caracteristica();
 
-        caracteristica.feature_value_id = parameters.feature_value_id;
+        caracteristica._id = parameters.feature_value_id;
         caracteristica.name = parameters.name;
         caracteristica.price_impact = parameters.price_impact;
 
@@ -28,7 +28,6 @@ var controller = {
 
             var feature = {
                 id: caracteristicaStored._id,
-                feature_value_id: caracteristicaStored.feature_value_id,
                 name: caracteristicaStored.name,
                 price_impact: caracteristicaStored.price_impact
             }
@@ -66,7 +65,6 @@ var controller = {
 
             var feature = {
                 id: caracteristica._id,
-                feature_value_id: caracteristica.feature_value_id,
                 name: caracteristica.name,
                 price_impact: caracteristica.price_impact
             }
@@ -97,7 +95,6 @@ var controller = {
             caracteristicas.map((caracteristica) => {
                 features.push({
                     id: caracteristica._id,
-                    feature_value_id: caracteristica.feature_value_id,
                     name: caracteristica.name,
                     price_impact: caracteristica.price_impact
                 })
@@ -136,7 +133,6 @@ var controller = {
 
             var feature = {
                 id: caracteristicaUpdated._id,
-                feature_value_id: caracteristicaUpdated.feature_value_id,
                 name: caracteristicaUpdated.name,
                 price_impact: caracteristicaUpdated.price_impact
             }
@@ -167,7 +163,6 @@ var controller = {
 
             var feature = {
                 id: caracteristicaRemoved._id,
-                feature_value_id: caracteristicaRemoved.feature_value_id,
                 name: caracteristicaRemoved.name,
                 price_impact: caracteristicaRemoved.price_impact
             }

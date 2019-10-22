@@ -9,7 +9,7 @@ var controller = {
         var direccion = new Direccion();
 
         direccion.client_id = parameters.client_id;
-        direccion.address_id = parameters.address_id;
+        direccion._id = parameters.address_id;
         direccion.latitude = parameters.latitude;
         direccion.longitude = parameters.longitude;
 
@@ -30,7 +30,6 @@ var controller = {
             var address = {
                 id: direccionStored._id,
                 client_id: direccionStored.client_id,
-                address_id: direccionStored.address_id,
                 latitude: direccionStored.latitude,
                 longitude: direccionStored.longitude
             }
@@ -69,7 +68,6 @@ var controller = {
             var address = {
                 id: direccion._id,
                 client_id: direccion.client_id,
-                address_id: direccion.address_id,
                 latitude: direccion.latitude,
                 longitude: direccion.longitude
             }
@@ -102,7 +100,6 @@ var controller = {
                 addresses.push({
                     id: direccion._id,
                     client_id: direccion.client_id,
-                    address_id: direccion.address_id,
                     latitude: direccion.latitude,
                     longitude: direccion.longitude
                 })
@@ -141,7 +138,6 @@ var controller = {
             var address = {
                 id: direccionUpdated._id,
                 client_id: direccionUpdated.client_id,
-                address_id: direccionUpdated.address_id,
                 latitude: direccionUpdated.latitude,
                 longitude: direccionUpdated.longitude
             }
@@ -173,7 +169,6 @@ var controller = {
             var address = {
                 id: direccionRemoved._id,
                 client_id: direccionRemoved.client_id,
-                address_id: direccionRemoved.address_id,
                 latitude: direccionRemoved.latitude,
                 longitude: direccionRemoved.longitude
             }
