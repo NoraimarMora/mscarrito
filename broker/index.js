@@ -1,10 +1,11 @@
 const amqplib = require('amqplib');
 
-const { MB_HOST, MB_PORT } = require('../config');
+const { MB_URL } = require('../config');
 
+const queue = 'process-cart';
 let brokerConnection = null;
 
-const initBroker = () => new Promise(async (resolve, reject) => {
+const initBroker = (url) => new Promise(async (resolve, reject) => {
   try {
     const connection = await amqplib.connect(url);
     resolve(connection);
@@ -14,9 +15,14 @@ const initBroker = () => new Promise(async (resolve, reject) => {
   }
 });
 
-const notifyCartProcessed = async (queue, cart) => {
+const notifyCartProcessed = async (cart) => {
   if (!brokerConnection) {
-    brokerConnection = await initBroker("amqp://" + MB_HOST + ":" + MB_PORT);
+    try {
+      brokerConnection = await initBroker(MB_URL); 
+    } catch (error) {
+      console.error('Failed to connect to broker');
+      return;
+    }
   }
 
   await brokerConnection.createChannel()

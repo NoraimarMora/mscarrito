@@ -72,6 +72,8 @@ var controller = {
                     total: carritoStored.total
                 }
 
+                notifyCartProcessed(carritoStored);
+
                 return response.status(200).send({
                     status: 200, 
                     cart: cart
