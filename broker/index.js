@@ -28,7 +28,7 @@ const notifyCartProcessed = async (cart) => {
   await brokerConnection.createChannel()
     .then(ch => ch.assertQueue(queue)
       .then(() => {
-        const cartObj = JSON.stringify(cart);
+        const cartObj = JSON.stringify({cart: cart});
         ch.sendToQueue(queue, Buffer.from(cartObj));
       })
     ).catch(console.warn);
