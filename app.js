@@ -3,6 +3,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var { initBroker } = require('./broker');
+var callback = require('./broker/callbacks');
 var { asyncForEach } = require('./utils');
 var { MB_URL } = require('./config');
 
@@ -40,18 +41,18 @@ const jsonlog = (obj) => {
 }
 
 const subscriptions = [
-  { queue: 'product-created', callback: jsonlog },
-  { queue: 'product-updated', callback: jsonlog },
-  { queue: 'product-deleted', callback: jsonlog },
+  { queue: 'product-created', callback: callback.productCreated },
+  { queue: 'product-updated', callback: callback.productUpdated },
+  { queue: 'product-deleted', callback: callback.productDeleted },
   { queue: 'product-characteristic-created', callback: jsonlog },
   { queue: 'product-characteristic-updated', callback: jsonlog },
   { queue: 'product-characteristic-deleted', callback: jsonlog },
-  { queue: 'client-created', callback: jsonlog },
-  { queue: 'client-updated', callback: jsonlog },
-  { queue: 'client-deleted', callback: jsonlog },
-  { queue: 'address-created', callback: jsonlog },
-  { queue: 'address-updated', callback: jsonlog },
-  { queue: 'address-deleted', callback: jsonlog },
+  { queue: 'client-created', callback: callback.clientCreated },
+  { queue: 'client-updated', callback: callback.clientUpdated },
+  { queue: 'client-deleted', callback: callback.clientDeleted },
+  { queue: 'address-created', callback: callback.addressCreated },
+  { queue: 'address-updated', callback: callback.addressUpdated },
+  { queue: 'address-deleted', callback: callback.addressDeleted },
 ];
 
 const start = async () => {
@@ -66,7 +67,7 @@ const start = async () => {
 
             callback(content);
 
-            console.log(`[CONSUMER] Acknowledged ${orderId}`);
+            console.log(`[CONSUMER] Acknowledged ${msg.content.toString()}`);
           }
         }, { noAck: true }))
       ).catch(console.warn);
