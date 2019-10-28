@@ -568,7 +568,8 @@ var controller = {
                 client: carrito.client,
                 address: carrito.address,
                 total: carrito.total,
-                payment_method: 'tdc'
+                payment_method: 'tdc',
+                status: '5db65f595621e400213ce6ea'
             }
 
             notifyCartProcessed(cartProcessed);            
