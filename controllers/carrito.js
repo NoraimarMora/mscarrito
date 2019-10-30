@@ -574,7 +574,8 @@ var controller = {
                 address: carrito.address,
                 total: carrito.total,
                 payment_method: 'tdc',
-                status: '5db65f595621e400213ce6ea'
+                status: '5db65f595621e400213ce6ea',
+                delivery_man_id: '5db9005ed8fe91002c8601e3'
             }
 
             notifyCartProcessed(cartProcessed);            
