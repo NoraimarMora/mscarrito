@@ -119,7 +119,7 @@ var controller = {
 
             carrito.products.map((producto) => {
                 products.push({
-                    id: producto._id,
+                    id: producto.product._id,
                     cart_id: producto.cart_id,
                     name: producto.product.name,
                     image_url: producto.product.image_url,
@@ -193,7 +193,7 @@ var controller = {
 
             carrito.products.map((producto) => {
                 products.push({
-                    id: producto._id,
+                    id: producto.product._id,
                     cart_id: producto.cart_id,
                     name: producto.product.name,
                     image_url: producto.product.image_url,
@@ -260,7 +260,7 @@ var controller = {
 
                 carrito.products.map((producto) => {
                     products.push({
-                        id: producto._id,
+                        id: producto.product._id,
                         cart_id: producto.cart_id,
                         name: producto.product.name,
                         image_url: producto.product.image_url,
@@ -402,6 +402,11 @@ var controller = {
 
             if (!elementos) {
                 console.log('Carrito sin elementos');
+
+                return response.status(200).send({
+                    status: 200,
+                    message: 'Carrito sin elementos'
+                })
             } else {
                 var result = elementos.find(elemento => elemento.product == productId);
 
@@ -554,7 +559,7 @@ var controller = {
 
             carrito.products.map((producto) => {
                 products.push({
-                    id: producto.product.id,
+                    id: producto.product._id,
                     quantity: producto.quantity,
                     unit_price: producto.unit_price,
                     features: producto.features
