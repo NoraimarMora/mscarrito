@@ -410,6 +410,13 @@ var controller = {
             } else {
                 var result = elementos.find(elemento => elemento.product == productId);
 
+                if (result == undefined) {
+                    return response.status(404).send({
+                        status: 404, 
+                        message: 'Not found'
+                    });
+                }
+
                 Carrito.findById(carritoId).exec(function (error, carrito) {
                     if (error) {
                         return response.status(500).send({
